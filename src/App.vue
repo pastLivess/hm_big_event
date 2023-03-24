@@ -5,14 +5,8 @@
 </template>
 
 <script>
-import { login } from '@/service'
 export default {
   name: 'App',
-  mounted() {
-    login().then((res) => {
-      console.log(res)
-    })
-  },
 }
 </script>
 
