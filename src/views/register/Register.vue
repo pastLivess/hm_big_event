@@ -3,19 +3,19 @@
     <div class="reg-box">
       <div class="title-box"></div>
       <div class="content">
-        <el-form :model="info">
-          <el-form-item>
+        <el-form ref="form" :model="info" :rules="rulesObj">
+          <el-form-item prop="username">
             <el-input
               v-model="info.username"
               placeholder="请输入用户名"></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input
               show-password
               v-model="info.password"
               placeholder="请输入密码"></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="rePassword">
             <el-input
               show-password
               v-model="info.rePassword"
@@ -36,17 +36,52 @@
 export default {
   name: 'register',
   data() {
+    const samePwdFn = (rule, value, callback) => {
+      if (value !== this.info.password) {
+        callback(new Error('两次输入的密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
       info: {
         username: '',
         password: '',
         rePassword: '',
       },
+      rulesObj: {
+        //  校验对象
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          {
+            pattern: /^[0-9a-zA-Z]{1,10}$/,
+            message: '用户名必须是1-10的大小写字母数字',
+            trigger: 'blur',
+          },
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          {
+            pattern: /^\S{6,15}$/,
+            message: '密码必须是6-15的非空字符',
+            trigger: 'blur',
+          },
+        ],
+        rePassword: [
+          { required: true, message: '请再次输入密码', trigger: 'blur' },
+          {
+            pattern: /^\S{6,15}$/,
+            message: '密码必须是6-15的非空字符',
+            trigger: 'blur',
+          },
+          { validator: samePwdFn, trigger: 'blur' },
+        ],
+      },
     }
   },
   methods: {
     registerClick() {
-      console.log(this.info)
+      console.log(this.$refs.form)
     },
   },
 }
