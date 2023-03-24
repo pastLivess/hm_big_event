@@ -15,6 +15,7 @@
               v-model="info.password"
               placeholder="请输入密码"></el-input>
           </el-form-item>
+          <slot></slot>
           <el-form-item prop="rePassword">
             <el-input
               show-password
@@ -23,7 +24,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="registerClick">注册</el-button>
-            <el-link type="info">去登录</el-link>
+            <el-link type="info" @click="goLoginPage">去登录</el-link>
           </el-form-item>
         </el-form>
       </div>
@@ -99,6 +100,9 @@ export default {
         }
         // console.log(valid)
       })
+    },
+    goLoginPage() {
+      this.$router.push('/login')
     },
   },
 }
