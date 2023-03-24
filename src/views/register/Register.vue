@@ -81,6 +81,16 @@ export default {
   },
   methods: {
     registerClick() {
+      // 兜底校验
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          // 通过校验
+          console.log(this.info)
+        } else {
+          return false
+        }
+        // console.log(valid)
+      })
       console.log(this.$refs.form)
     },
   },
