@@ -32,7 +32,7 @@
 </template>
 
 <script>
-// import { getRegister } from '@/service'
+import { getRegister } from '@/service'
 export default {
   name: 'register',
   data() {
@@ -82,16 +82,23 @@ export default {
   methods: {
     registerClick() {
       // 兜底校验
-      this.$refs.form.validate((valid) => {
+      this.$refs.form.validate(async (valid) => {
         if (valid) {
           // 通过校验
-          console.log(this.info)
+          // 注册接口
+          const res = await getRegister(this.info)
+          if (res.data.code !== 0) {
+            // $message的error方法是elementUI封装的用于弹窗的方法 把服务器的错误message传进去
+
+            return this.$message.error(res.data.message)
+          }
+          this.$message.success(res.data.message)
+          this.$router.push('/login')
         } else {
           return false
         }
         // console.log(valid)
       })
-      console.log(this.$refs.form)
     },
   },
 }
