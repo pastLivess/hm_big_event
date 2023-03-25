@@ -6,6 +6,22 @@ class MyRequest {
       baseURL: BASE_URL,
       timeout: TIME_OUT,
     })
+    this.instance.interceptors.request.use(
+      (config) => {
+        return config
+      },
+      (err) => {
+        return err
+      }
+    )
+    this.instance.interceptors.response.use(
+      (config) => {
+        return config
+      },
+      (err) => {
+        return err
+      }
+    )
   }
   request(config) {
     return new Promise((resolve, reject) => {

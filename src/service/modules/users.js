@@ -10,3 +10,9 @@ export function getRegister({ username, password, rePassword: repassword }) {
     },
   })
 }
+export function getLogin({ username, password }) {
+  return MyRequest.post({
+    url: '/api/login',
+    data: { username, password },
+  })
+}

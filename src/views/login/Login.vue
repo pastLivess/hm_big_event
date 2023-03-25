@@ -27,7 +27,7 @@
 </template>
 
 <script>
-// import { getRegister } from '@/service'
+import { getLogin } from '@/service'
 export default {
   name: 'login',
   data() {
@@ -42,7 +42,6 @@ export default {
       info: {
         username: '',
         password: '',
-        rePassword: '',
       },
       rulesObj: {
         //  校验对象
@@ -75,7 +74,24 @@ export default {
     }
   },
   methods: {
-    loginClick() {},
+    loginClick() {
+      this.$refs.form.validate(async (valid) => {
+        // 验证通过
+        if (valid) {
+          const res = await getLogin(this.info) // 登录成功获取到token
+          if (res.data.code !== 0) {
+            // 失败
+            return this.$message.error(res.data.message)
+          }
+          // 成功 发送请求存储token
+          this.$store.dispatch('updateToken', res.data.token)
+          this.$message.success(res.data.message)
+          console.log(res)
+        } else {
+          return false
+        }
+      })
+    },
     goRegPage() {
       this.$router.push('/register')
     },
